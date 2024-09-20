@@ -7,6 +7,8 @@ const addNoteBtn = document.querySelector(".add-note");
 
 const searchInput = document.querySelector("#search-input");
 
+const exportBtn = document.querySelector("#export-notes");
+
 // Funções
 function showNotes() {
     cleanNotes();
@@ -170,19 +172,29 @@ function saveNotes(notes) {
 
 function searchNotes(search) {
     const searchResults = getNotes().filter((note) => {
-        note.content.includes(search)
+        return note.content.includes(search)
     });
 
     if(search !== "") {
+        cleanNotes();
 
-        cleanNotes()
+        searchResults.forEach((note) => {
+            const noteElemnt = createNote(note.id, note.content);
+            notesContainer.appendChild(noteElemnt);
+        });
 
-        searchNotes.forEach((note) => {
-            
-        })
-    }
+        return;
+    };
 
+    cleanNotes();
 
+    showNotes();
+};
+
+function exportData() {
+    const notes = getNotes()
+
+    // separa o dado por , quebra linha
 };
 
 // Eventos
@@ -192,6 +204,16 @@ searchInput.addEventListener("keyup", (e) => {
     const search = e.target.value;
 
     searchNotes(search);
+});
+
+noteInput.addEventListener("keydown", (e) => {
+    if(e.key === "Enter") {
+        addNote();
+    }
+});
+
+exportBtn.addEventListener("click", () => {
+    exportData()
 });
 
 // Inicialização
